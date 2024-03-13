@@ -1,57 +1,26 @@
 <template>
   <el-select v-model="table.flushDelay">
-    <el-option
-      :key="5"
-      label="服务器状态刷新间隔: 5秒"
-      :value="5"
-    />
-    <el-option
-      :key="15"
-      label="服务器状态刷新间隔: 15秒"
-      :value="15"
-    />
-    <el-option
-      :key="30"
-      label="服务器状态刷新间隔: 30秒"
-      :value="30"
-    />
-    <el-option
-      :key="60"
-      label="服务器状态刷新间隔: 60秒"
-      :value="60"
-    />
+    <el-option :key="5" label="服务器状态刷新间隔: 5秒" :value="5" />
+    <el-option :key="15" label="服务器状态刷新间隔: 15秒" :value="15" />
+    <el-option :key="30" label="服务器状态刷新间隔: 30秒" :value="30" />
+    <el-option :key="60" label="服务器状态刷新间隔: 60秒" :value="60" />
   </el-select>
 
-  <el-row
-    :gutter="40"
-    class="panel-group"
-  >
-    <el-col
-      :xs="24"
-      :sm="8"
-    >
+  <el-row :gutter="40" class="panel-group">
+    <el-col :xs="24" :sm="8">
       <div class="card-panel">
         <br>
-        <el-progress
-          type="circle"
-          :percentage="table.cpu.percent"
-        />
+        <el-progress type="circle" :percentage="table.cpu.percent" />
         <div class="text">
           CPU / {{ table.cpu.count }}
         </div>
         <br>
       </div>
     </el-col>
-    <el-col
-      :xs="24"
-      :sm="8"
-    >
+    <el-col :xs="24" :sm="8">
       <div class="card-panel">
         <br>
-        <el-progress
-          type="circle"
-          :percentage="table.memory.progress"
-        >
+        <el-progress type="circle" :percentage="table.memory.progress">
           <template #default="{ percentage }">
             <span class="percentage-value">{{ percentage }}%</span><br><br>
             <span class="percentage-label">{{ table.memory.used }}</span>
@@ -63,16 +32,10 @@
         <br>
       </div>
     </el-col>
-    <el-col
-      :xs="24"
-      :sm="8"
-    >
+    <el-col :xs="24" :sm="8">
       <div class="card-panel">
         <br>
-        <el-progress
-          type="circle"
-          :percentage="table.disk.progress"
-        >
+        <el-progress type="circle" :percentage="table.disk.progress">
           <template #default="{ percentage }">
             <span class="percentage-value">{{ percentage }}%</span><br><br>
             <span class="percentage-label">{{ table.disk.used }}</span>
@@ -86,10 +49,7 @@
     </el-col>
   </el-row>
 
-  <el-row
-    :gutter="12"
-    class="notifyCard"
-  >
+  <el-row :gutter="12" class="notifyCard">
     <el-col :span="12">
       <el-card shadow="always">
         配置版本:
@@ -119,10 +79,7 @@
   <!-- 带宽和硬盘读写 -->
   <el-row>
     <el-col :span="24">
-      <div
-        ref="netChart"
-        class="netChart"
-      />
+      <div ref="netChart" class="netChart" />
     </el-col>
   </el-row>
 </template>
@@ -256,6 +213,7 @@ onUnmounted(() => {
     box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
     border-color: rgba(0, 0, 0, .05);
     background: var(--ea-main-color);
+
     .text {
       font-size: 16px;
       color: rgba(0, 0, 0, 0.45);

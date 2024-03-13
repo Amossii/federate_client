@@ -37,7 +37,7 @@ export const archive = {
       path: 'list',
       component: () => import('@/views/archive/list.vue'),
       name: 'archiveList',
-      meta: { title: '资料列表', icon: 'Memo' }
+      meta: { title: '模型列表', icon: 'Memo' }
     },
     // {
     //   path: 'category',
