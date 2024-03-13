@@ -3,26 +3,14 @@
   <div>
     <el-form :inline="true">
       <el-form-item label="路径">
-        <el-input
-          v-model="table.query.path"
-          placeholder="/url"
-          clearable
-        />
+        <el-input v-model="table.query.path" placeholder="/url" clearable />
       </el-form-item>
 
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="search"
-          @click="handleTableData"
-        >
+        <el-button type="primary" icon="search" @click="handleTableData">
           查询
         </el-button>
-        <el-button
-          type="info"
-          icon="Refresh"
-          @click="handleQueryRefresh"
-        >
+        <el-button type="info" icon="Refresh" @click="handleQueryRefresh">
           重置
         </el-button>
       </el-form-item>
@@ -32,103 +20,49 @@
   <!-- 数据展示框 -->
   <el-main class="ea-table">
     <!-- 数据操作按钮 -->
-    <el-button
-      type="primary"
-      size="small"
-      :icon="table.selectStat? 'SemiSelect':'Select'"
-      @click="table.selectStat = !table.selectStat"
-    />
-    <el-button
-      v-if="table.selectStat"
-      size="small"
-      @click="handleInvertSelection"
-    >
+    <el-button type="primary" size="small" :icon="table.selectStat ? 'SemiSelect' : 'Select'"
+      @click="table.selectStat = !table.selectStat" />
+    <el-button v-if="table.selectStat" size="small" @click="handleInvertSelection">
       反选
     </el-button>
-    <el-button
-      v-if="table.selectStat"
-      size="small"
-      @click="tableRef.clearSelection"
-    >
+    <el-button v-if="table.selectStat" size="small" @click="tableRef.clearSelection">
       清空
     </el-button>
-    <el-button
-      v-if="table.selectStat"
-      size="small"
-      type="danger"
-      @click="handleDeleteMore"
-    >
+    <el-button v-if="table.selectStat" size="small" type="danger" @click="handleDeleteMore">
       删除选中
     </el-button>
     <!-- 数据table -->
-    <el-table
-      ref="tableRef"
-      :data="table.data"
-      @sort-change="handleSortChange"
-    >
-      <el-table-column
-        v-if="table.selectStat"
-        type="selection"
-        width="50"
-      />
-      <el-table-column
-        label="站点"
-        prop="SiteID"
-      />
+    <el-table ref="tableRef" :data="table.data" @sort-change="handleSortChange">
+      <el-table-column v-if="table.selectStat" type="selection" width="50" />
+      <el-table-column label="站点" prop="SiteID" />
 
-      <el-table-column
-        label="路径"
-        align="center"
-      >
+      <el-table-column label="路径" align="center">
         <template #default="scope">
-          <el-tooltip
-            :content="scope.row.File"
-            placement="top"
-          >
+          <el-tooltip :content="scope.row.File" placement="top">
             <el-link>{{ scope.row.Path }}</el-link>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column
-        label="文件大小"
-        align="center"
-      >
+      <el-table-column label="文件大小" align="center">
         <template #default="scope">
           <el-link>{{ fileSizeFormat(scope.row.Size) }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        label="访问日期"
-        align="center"
-      >
+      <el-table-column label="访问日期" align="center">
         <template #default="scope">
-          <el-link>{{ dateFormat("Y-m-d H:i:s" ,scope.row.Accessed) }}</el-link>
+          <el-link>{{ dateFormat("Y-m-d H:i:s", scope.row.Accessed) }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        label="过期时间"
-        align="center"
-      >
+      <el-table-column label="过期时间" align="center">
         <template #default="scope">
-          <el-tooltip
-            :content="'创建：' + scope.row.CreatedAt"
-            placement="top"
-          >
-            <el-link>{{ dateFormat("Y-m-d H:i:s" ,scope.row.Expired) }}</el-link>
+          <el-tooltip :content="'创建：' + scope.row.CreatedAt" placement="top">
+            <el-link>{{ dateFormat("Y-m-d H:i:s", scope.row.Expired) }}</el-link>
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        width="65"
-      >
+      <el-table-column fixed="right" label="操作" width="65">
         <template #default="scope">
-          <el-button
-            link
-            type="danger"
-            @click="handleDialogDelete(scope.row)"
-          >
+          <el-button link type="danger" @click="handleDialogDelete(scope.row)">
             删除
           </el-button>
         </template>
@@ -137,14 +71,8 @@
 
     <br>
 
-    <el-pagination
-      background
-      layout="total, sizes, prev, pager, next"
-      :total="table.total"
-      :page-size="table.query.limit"
-      @current-change="handleChangePage"
-      @size-change="handleChangeLimit"
-    />
+    <el-pagination background layout="total, sizes, prev, pager, next" :total="table.total" :page-size="table.query.limit"
+      @current-change="handleChangePage" @size-change="handleChangeLimit" />
   </el-main>
 </template>
 
