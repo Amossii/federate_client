@@ -4,7 +4,7 @@
       新增
     </el-button>
     <el-table :data="table.data" style="width: 100%" @sort-change="handleSortChange">
-      <el-table-column prop="id" label="ID" width="40" />
+      <!-- <el-table-column prop="id" label="ID" width="60" /> -->
       <el-table-column prop="email" label="邮箱" />
       <el-table-column prop="username" label="名称" />
       <el-table-column prop="password" label="密码">
@@ -42,7 +42,7 @@
         <el-input v-model="dialog.form.email" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="dialog.form.password" />
+        <el-input v-model="dialog.form.password" type="password" />
       </el-form-item>
       <el-form-item label="昵称" prop="username">
         <el-input v-model="dialog.form.username" />
