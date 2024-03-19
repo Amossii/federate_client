@@ -12,6 +12,13 @@ export const getArchive = (params) => {
     params
   })
 }
+export const getModel = (params) => {
+  return service({
+    url: 'model/query',
+    method: 'get',
+    params
+  })
+}
 
 export const deleteArchive = (params) => {
   return service({

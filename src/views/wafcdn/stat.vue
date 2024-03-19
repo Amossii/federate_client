@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="table.flushDelay">
+  <!-- <el-select v-model="table.flushDelay">
     <el-option :key="5" label="服务器状态刷新间隔: 5秒" :value="5" />
     <el-option :key="15" label="服务器状态刷新间隔: 15秒" :value="15" />
     <el-option :key="30" label="服务器状态刷新间隔: 30秒" :value="30" />
@@ -76,15 +76,15 @@
     </el-col>
   </el-row>
 
-  <!-- 带宽和硬盘读写 -->
+
   <el-row>
     <el-col :span="24">
       <div ref="netChart" class="netChart" />
     </el-col>
-  </el-row>
+  </el-row> -->
 </template>
 
-<script setup>
+<!-- <script setup>
 import { stat } from '@/apis/wafcdn'
 import * as echarts from 'echarts'
 import { ref, onMounted, onUnmounted } from 'vue'
@@ -233,4 +233,4 @@ onUnmounted(() => {
   color: #666;
   background: var(--ea-main-color);
 }
-</style>
+</style> -->

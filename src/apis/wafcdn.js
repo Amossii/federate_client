@@ -125,3 +125,10 @@ export const postConf = (data) => {
     data
   })
 }
+export const trainHost = (params) => {
+  return service({
+    url: '/client/train_save',
+    method: 'get',
+    params
+  })
+}

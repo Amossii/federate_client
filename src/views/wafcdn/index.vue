@@ -8,17 +8,23 @@
     <el-button type="primary" icon="Refresh" @click="conf.visible = true">
       全局配置
     </el-button>
+    <el-button type="primary" @click="conf.visible = true">
+      <el-icon class="el-icon--right">
+        <Upload />
+      </el-icon>
+      <span> </span>一键训练
+    </el-button>
     <!-- 数据table -->
     <el-table style="width: 100%" ref="tableRef" :data="table.data">
-      <el-table-column label="主机编号" prop="number" sortable="custom" />
+      <el-table-column label="主机编号" prop="number" />
+      <el-table-column label="模型名称" prop="model_name" />
       <el-table-column label="源数据" prop="filename" align="center" />
 
       <el-table-column fixed="right" label="操作">
         <template #default="scope">
           <el-button size="small" type="primary" @click="terminal.handleNew(scope.row)">本地训练</el-button>
-          <!-- <el-button
-            size="small" type="primary" @click="dialog.handleDialogEdit(scope.row)">编辑</el-button> -->
-          <el-button size="small" type="danger" @click="dialog.handleDialogDelete(scope.row.number)">删除</el-button>
+          <el-button type="danger" :icon="Delete" circle @click="dialog.handleDialogDelete(scope.row.number)" />
+          <el-button type="success" :icon="Check" circle />
         </template>
       </el-table-column>
     </el-table>
@@ -37,11 +43,17 @@
       <el-form-item label="主机id" prop="title">
         <el-input v-model="dialog.form.title" />
       </el-form-item>
+      <el-form-item label="训练源模型" prop="model">
+        <el-select placeholder="请输入模型名" v-model="dialog.form.model_name" clearable>
+          <el-option v-for="item in file.model" :label="item.modelname" :value="item.modelname" :key="item.id" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="训练源文件" prop="ip">
-        <el-select placeholder="请输入文件名" v-model="dialog.form.ip" clearable>
+        <el-select placeholder="请输入文件名" v-model="dialog.form.filename" clearable>
           <el-option v-for="item in file.data" :label="item.filename" :value="item.filename" :key="item.id" />
         </el-select>
       </el-form-item>
+
     </el-form>
 
     <template #footer>
@@ -73,21 +85,28 @@
       </span>
     </template>
   </el-dialog>
+  <div ref="trendChart" class="chart" />
 </template>
 
 
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+
+import {
+  Check,
+  Delete,
+  Upload
+} from '@element-plus/icons-vue'
 
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import 'xterm/css/xterm.css'
 
 // import api
-import { getArchive } from '@/apis/archive'
-import { postConf, queryHost, addHost, deleteHost } from '@/apis/wafcdn'
+import { getArchive, getModel } from '@/apis/archive'
+import { postConf, queryHost, addHost, deleteHost, trainHost } from '@/apis/wafcdn'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 // ws 请求地址配置
@@ -115,12 +134,18 @@ const conf = ref({
   }
 })
 const file = ref({
-  data: []
+  data: [],
+  model: []
 })
 
 const handleFileData = () => {
   getArchive().then((result) => {
     file.value.data = result.data.fileInfo
+  })
+}
+const handleModelData = () => {
+  getModel().then((result) => {
+    file.value.model = result.data.fileInfo
   })
 }
 
@@ -174,6 +199,25 @@ const table = ref({
     }
   },
 })
+const trendChart = ref(null)
+onMounted(() => {
+  const myTrendChart = echarts.init(trendChart.value)
+  myTrendChart.setOption({
+    title: { text: '模型准确度' },
+    legend: {},
+    tooltip: {},
+    xAxis: { type: 'category', data: ['1', '2', '3', '4', '5', '6', '7'] },
+    yAxis: { type: 'value' },
+    series: [{ data: [12, 13, 15, 17, 21, 25, 24], type: 'line' }]
+  })
+
+  window.onresize = function () {
+    // myShareChart.resize()
+    // myDetailChart.resize()
+    myTrendChart.resize()
+  }
+})
+
 
 // dialog 的 element 实例
 const dialogRef = ref(null)
@@ -183,7 +227,7 @@ const dialog = ref({
   form: {},
   formRule: {
     ip: [
-      { required: true, message: '主机必须填写正确的IP', trigger: 'blur' }
+      { required: false, message: '主机必须填写正确的IP', trigger: 'blur' }
     ],
     port: [
       { required: true, message: '端口', trigger: 'blur' }
@@ -212,8 +256,10 @@ const dialog = ref({
     dialog.value.visible = false
     let temphost = {
       number: dialog.value.form.title,
-      filename: dialog.value.form.ip
+      filename: dialog.value.form.filename,
+      model_name: dialog.value.form.model_name
     }
+    console.log(temphost);
     addHost(temphost).then((result) => {
       console.log(result);
       table.value.handleDate()
@@ -233,7 +279,28 @@ const dialog = ref({
     })
   }
 })
+
+const terminal = ref({
+  handleNew: async (row) => {
+    console.log(row);
+    await trainHost({
+      id: row.number,
+      model_name: "hello"
+    }).then((result) => {
+      console.log(result);
+    })
+
+  }
+})
 handleFileData()
+handleModelData()
 table.value.handleDate()
 
 </script>
+<style scoped lang="scss">
+.chart {
+  min-height: 300px;
+  color: var(--ea-main-text-color);
+  background-color: var(--ea-main-color);
+}
+</style>

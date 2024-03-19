@@ -167,7 +167,7 @@ const formSubmit = () => {
   }
 
   .login_panel {
-    width: 96vw;
+    width: 156vw;
     height: 100%;
     background-color: rgba(255, 255, 255, .8);
     backdrop-filter: blur(5px);

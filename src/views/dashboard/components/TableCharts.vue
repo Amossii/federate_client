@@ -1,28 +1,4 @@
 <template>
-  <!-- <el-row
-    style="margin-bottom: 12px;"
-    :gutter="20"
-  >
-    <el-col
-      :sm="12"
-      :xs="24"
-    >
-      <div
-        ref="shareChart"
-        class="chart"
-      />
-    </el-col>
-    <el-col
-      :sm="12"
-      :xs="24"
-    >
-      <div
-        ref="detailChart"
-        class="chart"
-      />
-    </el-col>
-  </el-row> -->
-
   <el-row>
     <el-col :span="24">
       <div ref="trendChart" class="chart" />
@@ -39,31 +15,6 @@ import * as echarts from 'echarts'
 const trendChart = ref(null)
 
 onMounted(() => {
-  //   const myShareChart = echarts.init(shareChart.value)
-  //   myShareChart.setOption({
-  //     title: { text: '转码列表' },
-  //     legend: {},
-  //     tooltip: {},
-  //     series: [{
-  //       type: 'pie',
-  //       data: [
-  //         { value: 335, name: 'm3u8' },
-  //         { value: 634, name: 'mp4' },
-  //         { value: 434, name: 'mpd' }
-  //       ]
-  //     }]
-  //   })
-
-  // const myDetailChart = echarts.init(detailChart.value)
-  // myDetailChart.setOption({
-  //   title: { text: '最高播放量' },
-  //   legend: {},
-  //   tooltip: {},
-  //   xAxis: { data: ['电视剧', '电影', '动漫', '短视频', '体育', '纪录片'] },
-  //   yAxis: {},
-  //   series: [{ name: '销量', type: 'bar', data: [5, 20, 36, 10, 10, 20] }]
-  // })
-
   const myTrendChart = echarts.init(trendChart.value)
   myTrendChart.setOption({
     title: { text: '模型准确度' },
@@ -71,7 +22,7 @@ onMounted(() => {
     tooltip: {},
     xAxis: { type: 'category', data: ['1', '2', '3', '4', '5', '6', '7'] },
     yAxis: { type: 'value' },
-    series: [{ data: [12, 20, 15, 17, 8, 25, 24], type: 'line' }]
+    series: [{ data: [12, 13, 15, 17, 21, 25, 24], type: 'line' }]
   })
 
   window.onresize = function () {
