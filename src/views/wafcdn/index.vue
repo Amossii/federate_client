@@ -17,14 +17,15 @@
     <!-- 数据table -->
     <el-table style="width: 100%" ref="tableRef" :data="table.data">
       <el-table-column label="主机编号" prop="number" />
-      <el-table-column label="模型名称" prop="model_name" />
       <el-table-column label="源数据" prop="filename" align="center" />
+      <el-table-column label="模型名称" prop="model_name" />
 
+      <el-table-column label="模型id" prop="model_id" align="center" />
       <el-table-column fixed="right" label="操作">
         <template #default="scope">
           <el-button size="small" type="primary" @click="terminal.handleNew(scope.row)">本地训练</el-button>
           <el-button type="danger" :icon="Delete" circle @click="dialog.handleDialogDelete(scope.row.number)" />
-          <el-button type="success" :icon="Check" circle />
+          <el-button :type="scope.row.flag" :icon="Check" circle />
         </template>
       </el-table-column>
     </el-table>
@@ -53,7 +54,6 @@
           <el-option v-for="item in file.data" :label="item.filename" :value="item.filename" :key="item.id" />
         </el-select>
       </el-form-item>
-
     </el-form>
 
     <template #footer>
@@ -168,6 +168,7 @@ const table = ref({
     queryHost().then((result) => {
       table.value.data = result.data.fileInfo
       table.value.total = result.data.fileInfo.length
+      console.log(table.value.data);
     })
   },
   handleTableData: () => {
@@ -289,6 +290,7 @@ const terminal = ref({
     }).then((result) => {
       console.log(result);
     })
+    handleFileData()
 
   }
 })
