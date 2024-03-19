@@ -2,32 +2,32 @@ import service from '@/utils/request'
 
 export const getSystemAdmin = (params) => {
   return service({
-    url: '/system/admin',
+    url: '/auth/query',
     method: 'get',
     params
   })
 }
 
-export const postSystemAdmin = (data) => {
+export const addSystemAdmin = (params) => {
   return service({
-    url: '/system/admin',
-    method: 'post',
-    data
+    url: '/auth/register',
+    method: 'get',
+    params
   })
 }
 
-export const putSystemAdmin = (data) => {
+export const setSystemAdmin = (params) => {
   return service({
-    url: '/system/admin',
-    method: 'put',
-    data
+    url: '/auth/set',
+    method: 'get',
+    params
   })
 }
 
 export const deleteSystemAdmin = (params) => {
   return service({
-    url: '/system/admin',
-    method: 'delete',
+    url: '/auth/delete',
+    method: 'get',
     params
   })
 }

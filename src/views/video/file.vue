@@ -48,10 +48,8 @@ const table = ref({
     }
   }
 })
-const handleQueryRefresh = (value) => {
-  table.value.query.fileName = null
-  table.value.query.fileMd5 = null
-  table.value.query.order = null
+const handleUploadSuccess = () => {
+  ElMessage.success('上传成功！')
   handleTableData()
 }
 const handleChangePage = (value) => {
@@ -72,7 +70,7 @@ const handleTableData = () => {
 
 // 新增编辑数据
 const handleDialogDelete = (row) => {
-  ElMessageBox.confirm('请仔细确认是否删除 ' + row.fileName + ' ?', '警告', {
+  ElMessageBox.confirm('请仔细确认是否删除 ' + row.filename + ' ?', '警告', {
     confirmButtonText: '删除',
     cancelButtonText: '取消',
     type: 'warning'

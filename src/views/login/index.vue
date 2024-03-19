@@ -3,24 +3,14 @@
     <div class="login_panel">
       <div class="login_panel_form">
         <div class="login_panel_form_title">
-          <img
-            class="login_panel_form_title_logo"
-            src="/logo.svg"
-          >
+          <img class="login_panel_form_title_logo" src="/logo.svg">
           <div class="login_panel_form_title_p">
             用户登录
           </div>
         </div>
-        <el-form
-          ref="loginForm"
-          :rules="rules"
-          :model="formData"
-        >
+        <el-form ref="loginForm" :rules="rules" :model="formData">
           <el-form-item prop="username">
-            <el-input
-              v-model="formData.username"
-              placeholder="请输入用户名"
-            >
+            <el-input v-model="formData.username" placeholder="请输入用户名">
               <template #suffix>
                 <span class="input-icon">
                   <el-icon>
@@ -31,18 +21,11 @@
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input
-              v-model="formData.password"
-              placeholder="请输入密码"
-              :type="lock === 'lock' ? 'password' : 'text'"
-            >
+            <el-input v-model="formData.password" placeholder="请输入密码" :type="lock === 'lock' ? 'password' : 'text'">
               <template #suffix>
                 <a class="input-icon">
                   <el-icon>
-                    <component
-                      :is="lock"
-                      @click="handleChangeLock"
-                    />
+                    <component :is="lock" @click="handleChangeLock" />
                   </el-icon>
                 </a>
               </template>
@@ -50,28 +33,15 @@
           </el-form-item>
           <el-form-item prop="captcha">
             <div class="vPicBox">
-              <el-input
-                v-model="formData.captcha"
-                placeholder="请输入验证码"
-                style="width: 60%"
-              />
+              <el-input v-model="formData.captcha" placeholder="请输入验证码" style="width: 60%" />
               <div class="vPic">
-                <img
-                  alt="验证码"
-                  :src="captcha"
-                  @click="handleChangeCaptcha"
-                >
+                <img alt="验证码" :src="captcha" @click="handleChangeCaptcha">
               </div>
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              size="large"
-              :disabled="formData.captcha!=formData.captchaID"
-              style="width: 46%;"
-              @click="formSubmit"
-            >
+            <el-button type="primary" size="large" :disabled="formData.captcha != formData.captchaID" style="width: 46%;"
+              @click="formSubmit">
               登 录
             </el-button>
             <!-- <el-button
@@ -160,8 +130,9 @@ const userData = reactive({
 const formSubmit = () => {
   loginForm.value.validate((validate) => {
     if (validate) { // 判断表单是否验证通过。
-      postLogin(userData).then((result) => {
+      postLogin(formData).then((result) => {
         console.log(result)
+        console.log(formData);
         if (typeof result.data.token === 'undefined') {
           ElMessage.error('登录失败，未获取到token！')
           return
@@ -184,7 +155,6 @@ const formSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
-
 #userLayout {
   background-image: url("@/assets/login/login_background.jpg");
   background-size: cover;
@@ -197,7 +167,7 @@ const formSubmit = () => {
   }
 
   .login_panel {
-    width: 96vw;
+    width: 156vw;
     height: 100%;
     background-color: rgba(255, 255, 255, .8);
     backdrop-filter: blur(5px);

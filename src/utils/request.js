@@ -7,7 +7,6 @@ import router from '@/router'
 const service = axios.create({
   withCredentials: true,
   baseURL: import.meta.env.VE_API_URL,
-  timeout: 30 * 1000
 })
 
 service.interceptors.request.use(

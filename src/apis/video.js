@@ -13,8 +13,8 @@ export const fileUploadBefore = (data) => {
 // 切片上传文件
 export const fileUploadPart = (data) => {
   return service({
-    url: '/video/upload/part',
-    method: 'put',
+    url: '/file/upload',
+    method: 'post',
     data,
     headers: {
       'Content-Type': 'multipart/form-data'

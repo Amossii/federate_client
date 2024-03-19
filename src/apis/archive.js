@@ -1,27 +1,20 @@
 import service from '@/utils/request'
 const fileUrl = 'file/query'
 // 新建资料
-export const addArchive = (data) => {
-  return service({
-    url: fileUrl,
-    method: 'post',
-    data
-  })
-}
 
-// 修改资料
-export const updateArchive = (data) => {
-  return service({
-    url: fileUrl,
-    method: 'put',
-    data
-  })
-}
+
 
 // 获取媒体列表
 export const getArchive = (params) => {
   return service({
-    url: fileUrl,
+    url: 'file/query',
+    method: 'get',
+    params
+  })
+}
+export const getModel = (params) => {
+  return service({
+    url: 'model/query',
     method: 'get',
     params
   })
@@ -29,8 +22,8 @@ export const getArchive = (params) => {
 
 export const deleteArchive = (params) => {
   return service({
-    url: fileUrl,
-    method: 'delete',
+    url: 'file/delete',
+    method: 'get',
     params
   })
 }
