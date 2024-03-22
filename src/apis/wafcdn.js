@@ -132,3 +132,10 @@ export const trainHost = (params) => {
     params
   })
 }
+export const aggHost = (params) => {
+  return service({
+    url: '/server/aggregate',
+    method: 'get',
+    params
+  })
+}

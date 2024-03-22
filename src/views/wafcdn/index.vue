@@ -8,11 +8,11 @@
     <el-button type="primary" icon="Refresh" @click="conf.visible = true">
       全局配置
     </el-button>
-    <el-button type="primary" @click="conf.visible = true">
+    <el-button type="primary" @click="aggregate.visible = true">
       <el-icon class="el-icon--right">
         <Upload />
       </el-icon>
-      <span> </span>一键训练
+      <span> </span>模型融合
     </el-button>
     <!-- 数据table -->
     <el-table style="width: 100%" ref="tableRef" :data="table.data">
@@ -85,6 +85,22 @@
       </span>
     </template>
   </el-dialog>
+
+  <el-dialog v-model="aggregate.visible" title="全局融合">
+
+    <el-form ref="dialogRef" label-position="left" :model="dialog.form" :rules="dialog.formRule">
+      <el-form-item label="融合后的文件名" prop="title">
+        <el-input v-model="aggregate.modelName" type="textarea" autosize />
+      </el-form-item>
+    </el-form>
+
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="aggregate.visible = false">取消</el-button>
+        <el-button type="primary" @click="aggregate.handleSubmitForm">融合</el-button>
+      </span>
+    </template>
+  </el-dialog>
   <div ref="trendChart" class="chart" />
 </template>
 
@@ -106,7 +122,7 @@ import 'xterm/css/xterm.css'
 
 // import api
 import { getArchive, getModel } from '@/apis/archive'
-import { postConf, queryHost, addHost, deleteHost, trainHost } from '@/apis/wafcdn'
+import { postConf, queryHost, addHost, deleteHost, trainHost, aggHost } from '@/apis/wafcdn'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 // ws 请求地址配置
@@ -133,6 +149,19 @@ const conf = ref({
     })
   }
 })
+const aggregate = ref({
+  visible: false,
+  modelName: "",
+  handleSubmitForm: async () => {
+    let obj = {}
+    obj['modelName'] = aggregate.value.modelName
+    console.log(obj);
+    await aggHost(obj).then((result) => {
+      console.log(result);
+    })
+  }
+})
+
 const file = ref({
   data: [],
   model: []
@@ -209,7 +238,7 @@ onMounted(() => {
     tooltip: {},
     xAxis: { type: 'category', data: ['1', '2', '3', '4', '5', '6', '7'] },
     yAxis: { type: 'value' },
-    series: [{ data: [12, 13, 15, 17, 21, 25, 24], type: 'line' }]
+    series: [{ data: [12, 13, 15, 17, 21, 25, 24], type: 'line' }, { data: [11, 12, 13, 14, 21, 20, 21], type: 'line' }]
   })
 
   window.onresize = function () {
